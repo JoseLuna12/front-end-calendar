@@ -4,7 +4,7 @@
       <DayLabel v-for="d in Days" :key="d" :DayName="d" />
     </div>
     <div id="Calendar">
-      <Day v-for="d in MonthDays" :key="d" :DayNumber="d" />
+      <Day v-for="(d, index) in MonthDays" :key="index" :DayNumber="d.month" :DayWeek="Days[d.day]"/>
     </div>
   </div>
 </template>
@@ -58,10 +58,35 @@ export default {
     setMonthDays(year, month){
       let firstDay = new Date(year, month).getDay();
       let daysInMonth = 32 - new Date(year, month, 32).getDate();
-      for(let i = 1; i <= daysInMonth; i++){
-        this.MonthDays.push(i);
-      }
+
       this.FirstDay = firstDay;
+      this.setUpMonths(this.FirstDay);
+
+      let WeekDays = this.FirstDay;
+
+      for(let i = 1; i <= daysInMonth; i++){
+        this.MonthDays.push(
+          {
+            month: i,
+            day: WeekDays
+          }
+        );
+        if(WeekDays > this.Days.length - this.FirstDay){
+          WeekDays = 0;
+        }else{
+          WeekDays++
+        }
+      }
+    },
+    setUpMonths(days){
+      for(let i = 0; i < days; i++){
+        this.MonthDays.push(
+          {
+            month: '',
+            day: i
+          }
+        );
+      }
     }
   }
 };

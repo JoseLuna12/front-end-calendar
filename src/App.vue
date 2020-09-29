@@ -11,5 +11,8 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin: 0;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
 }
 </style>

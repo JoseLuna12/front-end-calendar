@@ -18,6 +18,8 @@ export default {
 .day {
   background-color: cornflowerblue;
   height: 30px;
-  padding: 5px;
+  padding: 7px;
+  color:white;
+  text-align: center;
 }
 </style>
