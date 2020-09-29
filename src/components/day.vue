@@ -42,8 +42,9 @@ export default {
       this.isToday = this.$props.DayNumber == this.$store.state.currentDate;
     },
     Weekend(){
-        let days = this.$store.state.days;
-        this.isWeekend = this.$props.DayWeek == days[0] || this.$props.DayWeek == days[days.length - 1];
+        let Sun = this.$store.state.days[0];
+        let Sat = this.$store.state.days[this.$store.state.days.length - 1];
+        this.isWeekend = this.$props.DayWeek == Sun || this.$props.DayWeek == Sat;
     }
   }
 };
