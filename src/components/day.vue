@@ -11,6 +11,13 @@
         }"
       >
         {{ DayNumber }}
+        <badge
+          v-for="(eve, index) in Events"
+          :key="index"
+          :title="eve.title"
+          :color="eve.color"
+          :id="index"
+        />
       </div>
     </div>
     <div v-else>
@@ -52,28 +59,58 @@
         Select color
       </h4>
       <div class="flex">
-        <vs-radio v-model="EventObj.EventColor" val="blue" @change="CheckFieldsforEvent">
+        <vs-radio
+          v-model="EventObj.EventColor"
+          val="blue"
+          @change="CheckFieldsforEvent"
+        >
           <div class="color-picker blue"></div>
         </vs-radio>
-        <vs-radio success v-model="EventObj.EventColor" val="green" @change="CheckFieldsforEvent">
+        <vs-radio
+          success
+          v-model="EventObj.EventColor"
+          val="green"
+          @change="CheckFieldsforEvent"
+        >
           <div class="color-picker green"></div>
         </vs-radio>
-        <vs-radio danger v-model="EventObj.EventColor" val="red" @change="CheckFieldsforEvent">
+        <vs-radio
+          danger
+          v-model="EventObj.EventColor"
+          val="red"
+          @change="CheckFieldsforEvent"
+        >
           <div class="color-picker red"></div>
         </vs-radio>
-        <vs-radio warn v-model="EventObj.EventColor" val="yellow" @change="CheckFieldsforEvent">
+        <vs-radio
+          warn
+          v-model="EventObj.EventColor"
+          val="yellow"
+          @change="CheckFieldsforEvent"
+        >
           <div class="color-picker yellow"></div>
         </vs-radio>
-        <vs-radio dark v-model="EventObj.EventColor" val="black" @change="CheckFieldsforEvent">
+        <vs-radio
+          dark
+          v-model="EventObj.EventColor"
+          val="black"
+          @change="CheckFieldsforEvent"
+        >
           <div class="color-picker black"></div>
         </vs-radio>
       </div>
       <div class="flex button-margin">
-        <vs-button success border :disabled="DisabledButton" :active="true"  @click="SaveEvent">
-          Save
-        </vs-button>
-        <vs-button danger border :disabled="false" :active="true"  @click="cancel">
+        <vs-button
+          danger
+          border
+          :disabled="false"
+          :active="true"
+          @click="cancel"
+        >
           Cancel
+        </vs-button>
+        <vs-button success border @click="SaveEvent">
+          Save
         </vs-button>
       </div>
     </vs-dialog>
@@ -82,11 +119,13 @@
 
 <script>
 import blockDay from "./blockDay";
+import badge from "./badge";
 export default {
   name: "Day",
   props: ["DayNumber", "DayWeek"],
   components: {
-    blockDay
+    blockDay,
+    badge
   },
   computed: {
     CurrentMonth() {
@@ -99,13 +138,14 @@ export default {
       isToday: false,
       isWeekend: false,
       active: false,
-      DisabledButton:true,
+      DisabledButton: true,
       EventObj: {
         EventTitle: "",
         EventDescription: "",
         EventColor: "blue",
         StartTime: ""
-      }
+      },
+      Events: []
     };
   },
   created() {
@@ -116,13 +156,13 @@ export default {
     select() {
       this.selected = !this.selected;
     },
-    cancel(){
-        let event = this.EventObj;
-        event.EventTitle = '';
-        event.EventDescription = '';
-        event.EventColor = 'blue';
-        event.StartTime = '';
-        this.selected = false;
+    cancel() {
+      let event = this.EventObj;
+      event.EventTitle = "";
+      event.EventDescription = "";
+      event.EventColor = "blue";
+      event.StartTime = "";
+      this.selected = false;
     },
     Today() {
       this.isToday = this.$props.DayNumber == this.$store.state.currentDate;
@@ -132,20 +172,30 @@ export default {
       let Sat = this.$store.state.days[this.$store.state.days.length - 1];
       this.isWeekend = this.$props.DayWeek == Sun || this.$props.DayWeek == Sat;
     },
-    SaveEvent(){
-        console.log(this.EventObj)
+    SaveEvent() {
+      let data = {
+        title: this.EventObj.EventTitle,
+        description: this.EventObj.EventDescription,
+        color: this.EventObj.EventColor,
+        time: this.EventObj.StartTime
+      };
+      this.Events.push(data);
+      this.Events.sort(function(a, b) {
+        return a.time.localeCompare(b.time);
+      });
+      console.log(this.Events)
     },
-    CheckFieldsforEvent(){
-        console.log('checking...')
-        let event = this.EventObj;
-        // // console.log('Titulo '+ )
-        // console.log('Description '+ !!event.EventDescription)
-        // console.log('Color '+ )
-        // console.log('Time '+ !!event.StartTime)
+    CheckFieldsforEvent() {
+      let event = this.EventObj;
 
-        if(!!event.EventTitle && !!event.EventDescription && !!event.EventColor && !!event.StartTime){
-            this.DisabledButton = false;
-        }
+      if (
+        !!event.EventTitle &&
+        !!event.EventDescription &&
+        !!event.EventColor &&
+        !!event.StartTime
+      ) {
+        this.DisabledButton = false;
+      }
     }
   }
 };
@@ -207,28 +257,7 @@ export default {
   border-radius: 50px;
 }
 
-.button-margin .vs-button{
-    margin-top: 25px;
-}
-
-.blue {
-  background-color: #1a5cff;
-  color: white;
-}
-.green {
-  background-color: #46c93a;
-  color: white;
-}
-.red {
-  background-color: #ff4757;
-  color: white;
-}
-.yellow {
-  background-color: #ffba00;
-  color: white;
-}
-.black {
-  background-color: #1e1e1e;
-  color: white;
+.button-margin .vs-button {
+  margin-top: 25px;
 }
 </style>
