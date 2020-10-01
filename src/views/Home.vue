@@ -54,7 +54,6 @@ export default {
   },
   data() {
     return {
-      daysTest: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       MonthDays: [],
       FirstDay: Number
     };
@@ -62,6 +61,9 @@ export default {
   methods: {
     setEventsArray(cant) {
       let arr = new Array(cant);
+      for(var i = 0; i < arr.length; i++){
+        arr[i] = [];
+      }
       this.$store.dispatch("SetEventsArray", arr);
     },
     setMonthDays(year, month) {

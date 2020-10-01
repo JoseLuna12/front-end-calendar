@@ -1,5 +1,5 @@
 <template>
-  <div :key="reRenderKey">
+  <div>
     <div v-if="DayNumber != ''">
       <div
         class="day"
@@ -132,12 +132,11 @@ export default {
       return this.$store.state.currentMonthName;
     },
     GetEventsGlobal() {
-      return this.$store.state.GlobalEvents[this.$props.DayNumber - 1] || [];
+      return this.$store.getters.GetEventByDay(this.$props.DayNumber - 1);
     }
   },
   data() {
     return {
-      reRenderKey: 0,
       selected: false,
       isToday: false,
       isWeekend: false,
@@ -149,24 +148,23 @@ export default {
         EventColor: "blue",
         StartTime: ""
       },
-      Events: [],
       renderEvents: this.GetEventsGlobal 
     };
   },
   created() {
     this.Today();
     this.Weekend();
+    this.renderEvents = this.GetEventsGlobal;
   },
   methods: {
     select() {
       this.selected = !this.selected;
     },
     cancel() {
-      let event = this.EventObj;
-      event.EventTitle = "";
-      event.EventDescription = "";
-      event.EventColor = "blue";
-      event.StartTime = "";
+      this.EventObj.EventTitle = "";
+      this.EventObj.EventDescription = "";
+      this.EventObj.EventColor = "blue";
+      this.EventObj.StartTime = "";
       this.selected = false;
     },
     Today() {
@@ -184,11 +182,8 @@ export default {
         color: this.EventObj.EventColor,
         time: this.EventObj.StartTime
       };
-      this.Events.push(data);
-      this.Events.sort(function(a, b) {
-        return a.time.localeCompare(b.time);
-      });
-      this.addToGlobalState(this.Events);
+      this.addToGlobalState(data);
+      this.cancel();
     },
     CheckFieldsforEvent() {
       let event = this.EventObj;
@@ -208,8 +203,6 @@ export default {
         event: events
       };
       this.$store.dispatch("addEventGlobal", data);
-      this.reRenderKey+=1;
-      this.renderEvents = this.GetEventsGlobal;
     }
   }
 };
@@ -232,46 +225,5 @@ export default {
 }
 .weekend {
   color: blue;
-}
-.not-margin {
-  margin: 0px;
-  font-weight: normal;
-  padding: 10px;
-  text-align: center;
-}
-.dialog {
-  background-color: teal !important;
-}
-.dialog_body {
-  margin: 0px;
-  font-weight: normal;
-  padding: 10px;
-}
-.vs-input-content {
-  margin: 10px 0px;
-  width: calc(100%);
-}
-
-.vs-input-content .vs-input,
-.vs-input {
-  width: 100%;
-}
-.dialog_input {
-  width: 100%;
-}
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.color-picker {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-}
-
-.button-margin .vs-button {
-  margin-top: 25px;
 }
 </style>
