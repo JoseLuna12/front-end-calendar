@@ -76,14 +76,14 @@ export default {
 
       this.setUpMonths(this.FirstDay);
 
-      let WeekDays = this.FirstDay;
+      let WeekDays = this.MonthDays[this.MonthDays.length-1].day +1;
 
       for (let i = 1; i <= daysInMonth; i++) {
         this.MonthDays.push({
           month: i,
           day: WeekDays
         });
-        if (WeekDays > this.Days.length - this.FirstDay) {
+        if (WeekDays == 6) {
           WeekDays = 0;
         } else {
           WeekDays++;
