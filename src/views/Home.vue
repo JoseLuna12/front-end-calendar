@@ -4,7 +4,12 @@
       <DayLabel v-for="d in Days" :key="d" :DayName="d" />
     </div>
     <div id="Calendar">
-      <Day v-for="(d, index) in MonthDays" :key="index" :DayNumber="d.month" :DayWeek="Days[d.day]"/>
+      <Day
+        v-for="(d, index) in MonthDays"
+        :key="index"
+        :DayNumber="d.month"
+        :DayWeek="Days[d.day]"
+      />
     </div>
   </div>
 </template>
@@ -12,7 +17,7 @@
 <script>
 // @ is an alias to /src
 import Day from "../components/day";
-import DayLabel from "../components/dayLabel"
+import DayLabel from "../components/dayLabel";
 
 export default {
   name: "Home",
@@ -24,23 +29,23 @@ export default {
     Days() {
       return this.$store.state.days;
     },
-    Months(){
+    Months() {
       return this.$store.state.months;
     },
-    Today(){
+    Today() {
       return this.$store.state.today;
     },
-    CurrentMonth(){
+    CurrentMonth() {
       return this.Today.getMonth();
     },
-    CurrentMonthName(){
-      return this.Months[this.CurrentMonth]
+    CurrentMonthName() {
+      return this.Months[this.CurrentMonth];
     },
-    CurrentYear(){
+    CurrentYear() {
       return this.Today.getFullYear();
     }
   },
-  created(){
+  created() {
     this.setMonthDays(this.CurrentYear, this.CurrentMonth);
     this.$store.dispatch("setMonth", this.CurrentMonthName);
     this.$store.dispatch("setDay", this.FirstDay);
@@ -54,38 +59,41 @@ export default {
       FirstDay: Number
     };
   },
-  methods:{
-    setMonthDays(year, month){
+  methods: {
+    setEventsArray(cant) {
+      let arr = new Array(cant);
+      this.$store.dispatch("SetEventsArray", arr);
+    },
+    setMonthDays(year, month) {
       let firstDay = new Date(year, month).getDay();
       let daysInMonth = 32 - new Date(year, month, 32).getDate();
 
+      this.setEventsArray(daysInMonth);
+
       this.FirstDay = firstDay;
+
       this.setUpMonths(this.FirstDay);
 
       let WeekDays = this.FirstDay;
 
-      for(let i = 1; i <= daysInMonth; i++){
-        this.MonthDays.push(
-          {
-            month: i,
-            day: WeekDays
-          }
-        );
-        if(WeekDays > this.Days.length - this.FirstDay){
+      for (let i = 1; i <= daysInMonth; i++) {
+        this.MonthDays.push({
+          month: i,
+          day: WeekDays
+        });
+        if (WeekDays > this.Days.length - this.FirstDay) {
           WeekDays = 0;
-        }else{
-          WeekDays++
+        } else {
+          WeekDays++;
         }
       }
     },
-    setUpMonths(days){
-      for(let i = 0; i < days; i++){
-        this.MonthDays.push(
-          {
-            month: '',
-            day: i
-          }
-        );
+    setUpMonths(days) {
+      for (let i = 0; i < days; i++) {
+        this.MonthDays.push({
+          month: "",
+          day: i
+        });
       }
     }
   }

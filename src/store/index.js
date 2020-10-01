@@ -12,7 +12,8 @@ export default new Vuex.Store({
     currentDay: String,
     currentDate: Number,
     startDay: Number,
-    startCalendar: false
+    startCalendar: false,
+    GlobalEvents: Array
   },
   mutations: {
     SET_CURRENT_MONTH_NAME (state, payload){
@@ -26,6 +27,12 @@ export default new Vuex.Store({
     },
     SET_CURRENT_DATE (state, payload){
       state.currentDate = payload;
+    },
+    SET_GLOBALEVENTS (state, payload){
+      state.GlobalEvents = payload;
+    },
+    ADD_EVENT_GLOBAL (state, payload){
+      state.GlobalEvents[payload.index] = payload.event;
     }
   },
   actions: {
@@ -40,6 +47,13 @@ export default new Vuex.Store({
     },
     setCurrDate ({commit}, payload){
       commit('SET_CURRENT_DATE', payload);
+    },
+    SetEventsArray({commit}, payload){
+      commit('SET_GLOBALEVENTS', payload);
+    },
+    addEventGlobal ({commit}, payload){
+      console.log(payload)
+      commit('ADD_EVENT_GLOBAL', payload);
     }
   },
   modules: {}

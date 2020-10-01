@@ -3,7 +3,7 @@
         <div v-if="id <= 1" class="badge" :class="color">
             {{title}}
         </div>
-        <div v-if="id == 1">
+        <div v-if="id == 2">
             <div class="badge black">
                 ...
             </div>

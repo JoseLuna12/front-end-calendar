@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="reRenderKey">
     <div v-if="DayNumber != ''">
       <div
         class="day"
@@ -12,7 +12,7 @@
       >
         {{ DayNumber }}
         <badge
-          v-for="(eve, index) in Events"
+          v-for="(eve, index) in renderEvents"
           :key="index"
           :title="eve.title"
           :color="eve.color"
@@ -100,16 +100,16 @@
         </vs-radio>
       </div>
       <div class="flex button-margin">
-        <vs-button
-          danger
-          border
-          :disabled="false"
-          :active="true"
-          @click="cancel"
-        >
+        <vs-button danger border @click="cancel">
           Cancel
         </vs-button>
-        <vs-button success border @click="SaveEvent">
+        <vs-button
+          success
+          border
+          :disabled="DisabledButton"
+          :active="true"
+          @click="SaveEvent"
+        >
           Save
         </vs-button>
       </div>
@@ -130,10 +130,14 @@ export default {
   computed: {
     CurrentMonth() {
       return this.$store.state.currentMonthName;
+    },
+    GetEventsGlobal() {
+      return this.$store.state.GlobalEvents[this.$props.DayNumber - 1] || [];
     }
   },
   data() {
     return {
+      reRenderKey: 0,
       selected: false,
       isToday: false,
       isWeekend: false,
@@ -145,7 +149,8 @@ export default {
         EventColor: "blue",
         StartTime: ""
       },
-      Events: []
+      Events: [],
+      renderEvents: this.GetEventsGlobal 
     };
   },
   created() {
@@ -183,7 +188,7 @@ export default {
       this.Events.sort(function(a, b) {
         return a.time.localeCompare(b.time);
       });
-      console.log(this.Events)
+      this.addToGlobalState(this.Events);
     },
     CheckFieldsforEvent() {
       let event = this.EventObj;
@@ -196,6 +201,15 @@ export default {
       ) {
         this.DisabledButton = false;
       }
+    },
+    addToGlobalState(events) {
+      let data = {
+        index: parseInt(this.$props.DayNumber) - 1,
+        event: events
+      };
+      this.$store.dispatch("addEventGlobal", data);
+      this.reRenderKey+=1;
+      this.renderEvents = this.GetEventsGlobal;
     }
   }
 };
