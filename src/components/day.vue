@@ -34,7 +34,7 @@
         <vs-input
           v-model="EventObj.EventTitle"
           success
-          label="Event Title"
+          label="City"
           placeholder="Add your event title"
           class="dialog_input"
           @change="CheckFieldsforEvent"
@@ -191,6 +191,7 @@ export default {
       if (
         !!event.EventTitle &&
         !!event.EventDescription &&
+        event.EventDescription.length < 300 &&
         !!event.EventColor &&
         !!event.StartTime
       ) {

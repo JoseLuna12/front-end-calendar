@@ -1,7 +1,7 @@
 <template>
   <div>
     <vs-button :active="true" @click="addDialog = !addDialog">
-      Add Event
+      Add Reminder
     </vs-button>
     <vs-dialog not-center width="700px" v-model="addDialog">
       <template #header>
@@ -16,7 +16,7 @@
           label="Day"
         >
           <vs-option
-            v-for="(day, index) in days"
+            v-for="(day, index) in daysArray"
             :key="index"
             :label="day"
             :value="day"
@@ -27,7 +27,7 @@
         <vs-input
           v-model="EventObj.EventTitle"
           success
-          label="Event Title"
+          label="City"
           placeholder="Add your event title"
           class="dialog_input"
           @change="CheckFieldsforEvent"
@@ -111,15 +111,16 @@
 </template>
 <script>
 import add from "../functions/createEvent";
+import apiCall from "../functions/getForecast";
 export default {
-  mixins: [add],
-  created() {
+  mixins: [add, apiCall],
+  mounted() {
     this.EventObj.day = this.Today;
-    this.days = this.DaysCount;
+    this.daysArray = this.DaysCount;
   },
   data() {
     return {
-      days: this.DaysCount,
+      daysArray: this.DaysCount,
       addDialog: false,
       EventObj: {
         EventTitle: "",
@@ -140,14 +141,16 @@ export default {
     }
   },
   methods: {
-    addEvent() {
+    async addEvent() {
       let event = this.EventObj;
+      await this.getForecast("quito", 6, 8);
       this.add(
         event.day,
         event.EventTitle,
         event.EventDescription,
         event.StartTime,
-        event.EventColor
+        event.EventColor,
+        this.currentForecast
       );
       this.cancel();
     },
@@ -157,6 +160,7 @@ export default {
       if (
         !!event.EventTitle &&
         !!event.EventDescription &&
+        event.EventDescription.length < 300 &&
         !!event.EventColor &&
         !!event.StartTime
       ) {

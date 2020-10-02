@@ -12,7 +12,6 @@ export default new Vuex.Store({
     currentDay: String,
     currentDate: Number,
     startDay: Number,
-    startCalendar: false,
     GlobalEvents: Array
   },
   mutations: {
@@ -38,6 +37,10 @@ export default new Vuex.Store({
           return a.time.localeCompare(b.time);
         });
         state.GlobalEvents[payload.index] = evLast;
+    },
+    UPDATE_FORECAST_EVENT(state, payload){
+      console.log(payload)
+      state.GlobalEvents[payload.index][payload.arrayIndex].forecast = payload.forecast;
     }
   },
   actions: {
@@ -58,6 +61,9 @@ export default new Vuex.Store({
     },
     addEventGlobal({ commit }, payload) {
       commit('ADD_EVENT_GLOBAL', payload);
+    },
+    updateForecastInEvent({commit}, payload){
+      commit('UPDATE_FORECAST_EVENT', payload);
     }
   },
   modules: {},
@@ -74,6 +80,7 @@ export default new Vuex.Store({
         arr[i] = i+1;
       }
       return arr
-    }
+    },
+
   }
 });
