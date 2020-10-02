@@ -39,8 +39,8 @@ export default new Vuex.Store({
         state.GlobalEvents[payload.index] = evLast;
     },
     UPDATE_FORECAST_EVENT(state, payload){
-      console.log(payload)
-      state.GlobalEvents[payload.index][payload.arrayIndex].forecast = payload.forecast;
+      let index =  state.GlobalEvents[payload.index].map(function(e) { return e.id; }).indexOf(payload.id);
+      state.GlobalEvents[payload.index][index].forecast = payload.forecast;
     }
   },
   actions: {

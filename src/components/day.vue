@@ -120,9 +120,12 @@
 <script>
 import blockDay from "./blockDay";
 import badge from "./badge";
+import idgen from "../functions/idgenerator"
+import addReminder from "../functions/createEvent"
 export default {
   name: "Day",
   props: ["DayNumber", "DayWeek"],
+  mixins:[idgen,addReminder],
   components: {
     blockDay,
     badge
@@ -177,6 +180,7 @@ export default {
     },
     SaveEvent() {
       let data = {
+        id: this.GenerateId(),
         title: this.EventObj.EventTitle,
         description: this.EventObj.EventDescription,
         color: this.EventObj.EventColor,
@@ -199,11 +203,14 @@ export default {
       }
     },
     addToGlobalState(events) {
-      let data = {
-        index: parseInt(this.$props.DayNumber) - 1,
-        event: events
-      };
-      this.$store.dispatch("addEventGlobal", data);
+      this.add(
+        this.$props.DayNumber,
+        events.title,
+        events.description,
+        events.time,
+        events.color,
+        'No Data'
+      );
     }
   }
 };

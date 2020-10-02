@@ -29,7 +29,7 @@ const forecast = {
                     .catch((e) => reject(e));
             })
         },
-        getForecast(city, day, hour) {
+        getForecast(city, day, hour, evid) {
             let month = this.monthsForForecast.indexOf(this.GetCurrentMont) + 1;
             let dayParsed = day;
             let hourParsed = hour
@@ -70,6 +70,7 @@ const forecast = {
             }).then(() => {
                 console.log(this.currentForecast)
                 this.$store.dispatch('updateForecastInEvent', {
+                    id: evid,
                     index: (day) - 1,
                     arrayIndex: 0,
                     forecast: this.currentForecast

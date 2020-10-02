@@ -112,8 +112,9 @@
 <script>
 import add from "../functions/createEvent";
 import apiCall from "../functions/getForecast";
+import idgen from "../functions/idgenerator"
 export default {
-  mixins: [add, apiCall],
+  mixins: [add, apiCall, idgen],
   mounted() {
     this.EventObj.day = this.Today;
     this.daysArray = this.DaysCount;
@@ -142,8 +143,8 @@ export default {
   },
   methods: {
     async addEvent() {
+      // let eventId = this.GenerateId();
       let event = this.EventObj;
-      await this.getForecast("quito", 6, 8);
       this.add(
         event.day,
         event.EventTitle,
