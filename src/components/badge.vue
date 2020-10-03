@@ -28,6 +28,7 @@ export default {
     padding: 2px;
     text-align: center;
     border-radius: 50px;
+    text-overflow: ellipsis;
 }
 .BadgeParent .badge{
     cursor: pointer;

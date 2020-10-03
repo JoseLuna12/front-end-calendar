@@ -125,7 +125,10 @@
         </h2>
       </template>
       <div class="dialog_body not-margin">
-        <ul v-if="renderEvents && renderEvents.length" >
+        <ul v-if="renderEvents && renderEvents.length">
+          <vs-button danger border @click="removeAll">
+            Delete all
+          </vs-button>
           <li v-for="(eve, index) in renderEvents" v-bind:key="index">
             <reminder
               :color="eve.color"
@@ -136,7 +139,6 @@
               :time="eve.time"
               :id="eve.id"
               :day="DayNumber"
-              :reminders="OpenAllReminders"
             />
           </li>
         </ul>
@@ -246,6 +248,10 @@ export default {
     },
     OpenAllReminders() {
       this.OpenAllEvents = !this.OpenAllEvents;
+    },
+    removeAll() {
+      this.RemoveAllEvents(this.$props.DayNumber);
+      this.OpenAllReminders();
     }
   }
 };

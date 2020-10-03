@@ -29,7 +29,7 @@ const forecast = {
                     .catch((e) => reject(e));
             })
         },
-        getForecast(city, day, hour, evid) {
+        getForecast(city, day, hour, evid, notification) {
             let month = this.monthsForForecast.indexOf(this.GetCurrentMont) + 1;
             let dayParsed = day;
             let hourParsed = hour
@@ -73,7 +73,10 @@ const forecast = {
                     index: (day) - 1,
                     arrayIndex: 0,
                     forecast: this.currentForecast
-                })
+                });
+                if(this.currentForecast != 'No data'){
+                    notification({color:'success', title:`The forecast for ${city} is ${this.currentForecast}`, description: `The forecast for ${this.$store.state.currentMonthName} ${day} was fetched successfuly` })
+                }
             }).catch((e) =>{
                 console.log(e)
                 // this.$store.dispatch('updateForecastInEvent', {

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <vs-button danger border @click="removeAll">
-        Delete all
-      </vs-button>
+    <!--  -->
     <div class="Reminder flex" :class="color" @click="EditEvent = true">
       <div class="index">
         {{ index + 1 }}
@@ -87,7 +85,7 @@ import EditEventsMix from "../functions/createEvent";
 export default {
   name: "Remniders",
   mixins: [EditEventsMix],
-  props: ["color", "title", "descript", "time", "fcst", "index", "id", "day", "reminders"],
+  props: ["color", "title", "descript", "time", "fcst", "index", "id", "day"],
   mounted(){
       this.city=this.$props.title;
       this.description= this.$props.descript;
@@ -127,10 +125,7 @@ export default {
       };
       this.Replace(day, index, newEvent);
     },
-    removeAll(){
-      this.RemoveAllEvents(this.$props.day);
-      this.$props.reminders();
-    }
+    
   }
 };
 </script>
@@ -139,6 +134,7 @@ export default {
 .Reminder {
   height: 30px;
   padding: 5px;
+  cursor: pointer;
 }
 .index {
   background-color: white;

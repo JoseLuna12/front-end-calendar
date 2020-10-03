@@ -15,10 +15,27 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
+### Unit test command
 ```
-npm run lint
+npm run test
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Mandatory features
+- [ ✔ ] Add new reminder
+- [ ✔ ] Reminder max 30 chars
+- [ ✔ ] Enter day, time, city
+- [ ✔ ] Display reminders in correct order
+- [ ✔ ] Select color for reminder
+- [ ✔ ] Weather service from api
+    - By city
+    - By hour of the day
+- [ ✔ ] Unit test add new reminder
+
+### Optional features
+- [ ✔ ] Handle overflow of reminders on the same date
+- [ ✔ ] Delete all reminders for specific day
+
+### Considerations applied
+- State manager: VUEX
+- Proyect with git version 
+- Ui libraries VueSax

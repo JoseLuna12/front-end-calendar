@@ -111,8 +111,9 @@
 </template>
 <script>
 import add from "../functions/createEvent";
+import noti from "../functions/notification";
 export default {
-  mixins: [add],
+  mixins: [add, noti],
   mounted() {
     this.EventObj.day = this.Today;
     this.daysArray = this.DaysCount;
@@ -137,6 +138,9 @@ export default {
     },
     DaysCount() {
       return this.$store.getters.DaysArray;
+    },
+    CurrentMonth(){
+      return this.$store.state.currentMonthName;
     }
   },
   methods: {
@@ -154,7 +158,9 @@ export default {
     },
     CheckFieldsforEvent() {
       let event = this.EventObj;
-
+      if(event.EventDescription.length > 300){
+        this.CreateNotification({color:'danger', title:'Invalid input in description', description:'Description must be under 300 letters'})
+      }
       if (
         !!event.EventTitle &&
         !!event.EventDescription &&
