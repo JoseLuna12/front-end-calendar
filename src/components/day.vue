@@ -136,6 +136,7 @@
               :time="eve.time"
               :id="eve.id"
               :day="DayNumber"
+              :reminders="OpenAllReminders"
             />
           </li>
         </ul>

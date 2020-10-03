@@ -36,7 +36,7 @@ export default {
       try{
         this.$store.dispatch("addEventGlobal", data);
       }catch(error){
-        this.errorMsg = 'Description must be under 300 letters';
+        
         return error
       }
     }

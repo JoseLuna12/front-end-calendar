@@ -47,7 +47,7 @@ export default new Vuex.Store({
       state.GlobalEvents[payload.day].splice(payload.index, 1);
     },
     REMOVE_ALL_EVENTS_IN_DAY(state, payload){
-      state.GlobalEvents[payload] = [];
+      state.GlobalEvents[payload].length= 0;
     }
   },
   actions: {

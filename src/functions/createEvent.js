@@ -29,9 +29,11 @@ const CreateEventG = {
             })
         },
         Replace(day, index, event){
-            // console.log(day + " " +index + " "  + JSON.stringify(event))
             this.Remove(day, index);
             this.add(event.day, event.title, event.descr, event.time, event.color, event.forecast);
+        },
+        RemoveAllEvents(day){
+            this.$store.dispatch("removeAllEventsForOneDay", day-1)
         }
     }
 }
