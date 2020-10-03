@@ -1,25 +1,23 @@
 export default {
     state() {
       return{
-        GlobalEvents: []
+        GlobalEvents: [],
+        errorMsg: ''
       }
     },
     mutations: {
       ADD_EVENT_GLOBAL(state, payload) {
+        if(payload.description.length > 300){
+          state.errorMsg = 'Description must be under 300 letters';
+          throw new Error('Description must be under 300 letters');          
+        }
           state.GlobalEvents.push(payload);
-      },
-      UPDATE_FORECAST_EVENT(state, payload){
-        let index =  state.GlobalEvents[payload.index].map(function(e) { return e.id; }).indexOf(payload.id);
-        state.GlobalEvents[payload.index][index].forecast = payload.forecast;
       }
     },
     actions: {
       addEventGlobal({ commit }, payload) {
         commit('ADD_EVENT_GLOBAL', payload);
-      },
-      updateForecastInEvent({commit}, payload){
-        commit('UPDATE_FORECAST_EVENT', payload);
-      },
+      }
     },
   };
   

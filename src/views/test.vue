@@ -9,7 +9,7 @@ export default {
   created() {},
   data() {
     return {
-      ...this.$store.state
+      ...this.$store.state,
     };
   },
   methods: {
@@ -23,6 +23,22 @@ export default {
         forecast: 'No data'
       };
       this.$store.dispatch("addEventGlobal", data);
+    },
+    addEventErr(){
+      let data = {
+        id: 'xy123',
+        color: 'blue',
+        description: 'This is a description This is a description This is a description This is a description This is a description This is a description This is a descriptionThis is a description This is a description This is a description This is a description This is a description This is a description This is a description This is a description This is a description This is a description This is a description This is a descriptionThis is a description This is a description This is a description This is a description This is a description',
+        time: '22:04',
+        title: 'Quito',
+        forecast: 'No data'
+      };
+      try{
+        this.$store.dispatch("addEventGlobal", data);
+      }catch(error){
+        this.errorMsg = 'Description must be under 300 letters';
+        return error
+      }
     }
   }
 };
