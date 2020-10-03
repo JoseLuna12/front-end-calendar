@@ -111,10 +111,8 @@
 </template>
 <script>
 import add from "../functions/createEvent";
-import apiCall from "../functions/getForecast";
-import idgen from "../functions/idgenerator"
 export default {
-  mixins: [add, apiCall, idgen],
+  mixins: [add],
   mounted() {
     this.EventObj.day = this.Today;
     this.daysArray = this.DaysCount;
@@ -143,7 +141,6 @@ export default {
   },
   methods: {
     async addEvent() {
-      // let eventId = this.GenerateId();
       let event = this.EventObj;
       this.add(
         event.day,

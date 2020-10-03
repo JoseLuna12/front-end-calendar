@@ -11,6 +11,7 @@
         :DayWeek="Days[d.day]"
       />
     </div>
+    
   </div>
 </template>
 
@@ -18,12 +19,11 @@
 // @ is an alias to /src
 import Day from "../components/day";
 import DayLabel from "../components/dayLabel";
-
 export default {
   name: "Home",
   components: {
     Day,
-    DayLabel
+    DayLabel,
   },
   computed: {
     Days() {
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       MonthDays: [],
-      FirstDay: Number
+      FirstDay: Number,
     };
   },
   methods: {

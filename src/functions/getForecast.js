@@ -68,13 +68,20 @@ const forecast = {
                     }
                 }
             }).then(() => {
-                console.log(this.currentForecast)
                 this.$store.dispatch('updateForecastInEvent', {
                     id: evid,
                     index: (day) - 1,
                     arrayIndex: 0,
                     forecast: this.currentForecast
                 })
+            }).catch((e) =>{
+                console.log(e)
+                // this.$store.dispatch('updateForecastInEvent', {
+                //     id: evid,
+                //     index: (day) - 1,
+                //     arrayIndex: 0,
+                //     forecast: 'No data'
+                // })
             });
         }
     }

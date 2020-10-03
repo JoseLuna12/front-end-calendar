@@ -1,20 +1,17 @@
 <template>
   <div id="app">
     <addButton />
-    <!-- <vs-button :active="true" @click="getForecast('quito', 5, 8)">
-      test Api
-    </vs-button> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import addButton from './components/addReminder';
+import addButton from "./components/addReminder";
 export default {
-  components:{
+  components: {
     addButton
   }
-}
+};
 </script>
 
 <style>
@@ -89,5 +86,8 @@ export default {
 
 .button-margin .vs-button {
   margin-top: 25px;
+}
+li {
+  list-style-type: none;
 }
 </style>

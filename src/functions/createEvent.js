@@ -20,6 +20,18 @@ const CreateEventG = {
             let hourParsed = hour.split(':')
             hourParsed = parseInt(hourParsed[0])
             this.getForecast(title, day, hourParsed, randomId)
+        },
+        Remove(day, index){
+            console.log(day + " " + index)
+            this.$store.dispatch("removeEvent",{
+                day: day-1,
+                index
+            })
+        },
+        Replace(day, index, event){
+            // console.log(day + " " +index + " "  + JSON.stringify(event))
+            this.Remove(day, index);
+            this.add(event.day, event.title, event.descr, event.time, event.color, event.forecast);
         }
     }
 }

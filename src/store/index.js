@@ -12,7 +12,8 @@ export default new Vuex.Store({
     currentDay: String,
     currentDate: Number,
     startDay: Number,
-    GlobalEvents: Array
+    GlobalEvents: Array,
+    AllRemindersOpen: true,
   },
   mutations: {
     SET_CURRENT_MONTH_NAME(state, payload) {
@@ -41,6 +42,12 @@ export default new Vuex.Store({
     UPDATE_FORECAST_EVENT(state, payload){
       let index =  state.GlobalEvents[payload.index].map(function(e) { return e.id; }).indexOf(payload.id);
       state.GlobalEvents[payload.index][index].forecast = payload.forecast;
+    },
+    REMOVE_EVENT(state,payload){
+      state.GlobalEvents[payload.day].splice(payload.index, 1);
+    },
+    REMOVE_ALL_EVENTS_IN_DAY(state, payload){
+      state.GlobalEvents[payload] = [];
     }
   },
   actions: {
@@ -64,6 +71,12 @@ export default new Vuex.Store({
     },
     updateForecastInEvent({commit}, payload){
       commit('UPDATE_FORECAST_EVENT', payload);
+    },
+    removeEvent({commit}, payload){
+      commit('REMOVE_EVENT', payload);
+    },
+    removeAllEventsForOneDay({commit}, payload){
+      commit('REMOVE_ALL_EVENTS_IN_DAY', payload)
     }
   },
   modules: {},
@@ -80,7 +93,6 @@ export default new Vuex.Store({
         arr[i] = i+1;
       }
       return arr
-    },
-
+    }
   }
 });

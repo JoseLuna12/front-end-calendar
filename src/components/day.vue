@@ -3,20 +3,23 @@
     <div v-if="DayNumber != ''">
       <div
         class="day"
-        v-on:click="select"
         v-bind:class="{
           selected_class: selected,
           today: isToday,
           weekend: isWeekend
         }"
       >
-        {{ DayNumber }}
+        <div class="NumberBox" v-on:click="select">
+          {{ DayNumber }}
+        </div>
         <badge
           v-for="(eve, index) in renderEvents"
           :key="index"
           :title="eve.title"
           :color="eve.color"
           :id="index"
+          :day="DayNumber"
+          :openAllReminders="OpenAllReminders"
         />
       </div>
     </div>
@@ -114,21 +117,49 @@
         </vs-button>
       </div>
     </vs-dialog>
+
+    <vs-dialog not-center scroll width="800px" v-model="OpenAllEvents">
+      <template #header>
+        <h2 class="not-margin">
+          Reminders for <b> {{ CurrentMonth }} {{ DayNumber }} </b>
+        </h2>
+      </template>
+      <div class="dialog_body not-margin">
+        <ul v-if="renderEvents && renderEvents.length" >
+          <li v-for="(eve, index) in renderEvents" v-bind:key="index">
+            <reminder
+              :color="eve.color"
+              :title="eve.title"
+              :fcst="eve.forecast"
+              :index="index"
+              :descript="eve.description"
+              :time="eve.time"
+              :id="eve.id"
+              :day="DayNumber"
+            />
+          </li>
+        </ul>
+        <div v-else>
+          No reminders for this day
+        </div>
+      </div>
+    </vs-dialog>
   </div>
 </template>
 
 <script>
 import blockDay from "./blockDay";
 import badge from "./badge";
-import idgen from "../functions/idgenerator"
-import addReminder from "../functions/createEvent"
+import reminder from "./remindersWithInfo";
+import addReminder from "../functions/createEvent";
 export default {
   name: "Day",
   props: ["DayNumber", "DayWeek"],
-  mixins:[idgen,addReminder],
+  mixins: [addReminder],
   components: {
     blockDay,
-    badge
+    badge,
+    reminder
   },
   computed: {
     CurrentMonth() {
@@ -145,13 +176,14 @@ export default {
       isWeekend: false,
       active: false,
       DisabledButton: true,
+      OpenAllEvents: false,
       EventObj: {
         EventTitle: "",
         EventDescription: "",
         EventColor: "blue",
         StartTime: ""
       },
-      renderEvents: this.GetEventsGlobal 
+      renderEvents: this.GetEventsGlobal
     };
   },
   created() {
@@ -180,7 +212,6 @@ export default {
     },
     SaveEvent() {
       let data = {
-        id: this.GenerateId(),
         title: this.EventObj.EventTitle,
         description: this.EventObj.EventDescription,
         color: this.EventObj.EventColor,
@@ -209,14 +240,22 @@ export default {
         events.description,
         events.time,
         events.color,
-        'No Data'
+        "No Data"
       );
+    },
+    OpenAllReminders() {
+      this.OpenAllEvents = !this.OpenAllEvents;
     }
   }
 };
 </script>
 
 <style>
+.NumberBox {
+  width: 100%;
+  height: 30%;
+  cursor: pointer;
+}
 .day {
   border-style: solid;
   border-width: 1px;
