@@ -36,7 +36,6 @@ export default {
       try{
         this.$store.dispatch("addEventGlobal", data);
       }catch(error){
-        
         return error
       }
     }

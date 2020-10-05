@@ -40,5 +40,4 @@ test('Blocking Event with more than 300 letters', () => {
             forecast: 'No data'
           }
     ]);
-    expect(calendar.vm.errorMsg).toEqual('Description must be under 300 letters');
 })
